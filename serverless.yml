@@ -1,0 +1,31 @@
+service: sls-example
+
+provider:
+  name: aws
+  runtime: python3.7
+
+package:
+  exclude:
+    - "**/**"
+  include:
+    - handler.py
+
+plugins:
+  - serverless-python-requirements
+  - serverless-apigw-binary
+
+functions:
+  process_image:
+    handler: handler.process_image
+    events:
+     - http:
+         path: transform
+         method: get
+         parameters:
+            querystrings:
+              url: true
+
+custom:
+  apigwBinary:
+      types:
+        - '*/*'
