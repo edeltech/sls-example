@@ -1,4 +1,4 @@
-You will implement an AWS Lambda function using the Serverless Framework capable of applying a Sepia filter to an image.
+You will implement an AWS Lambda function using the Serverless Framework capable of modifying an image.
 
 
 # Setup
