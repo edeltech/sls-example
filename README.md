@@ -31,6 +31,9 @@ Install the Python dependencies
 
 	$ pip install -r requirements.txt
 
+Install the serverless plugins
+
+	$ npm install
 
 ## Test
 
