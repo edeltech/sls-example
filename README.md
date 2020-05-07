@@ -14,9 +14,9 @@ Install the Serverless framework
 
 	$ npm install -g serverless
 
-Create a directory where you want to run the example
+Clone this repository
 
-	$ mkdir sls-example
+	$ git clone git@github.com:edeltech/sls-example.git
 
 Navigate into the directory and create a Python virtual environment
 
@@ -27,58 +27,19 @@ Activate the virtual environment
 
 	$ source .venv/bin/activate
 
-Create a Python requirements file
-
-	$ echo "Wand==0.5.9" > requirements.txt
-
 Install the Python dependencies
 
 	$ pip install -r requirements.txt
 
 
-# Create the serverless application
-
-We will create a serverless application using the `aws-python3` runtime.
-
-	$ serverless create --template aws-python3
-
-You should now see 2 files:
-
-1. `handler.py` - this is the application "main" function
-1. `serverless.yml` - this is the serverless configuration YAML file
-
-The `aws-python3` will create a template for Python 3.8. If you have a lower version, modify the `serverless.yml` file:
-
-```yaml
-provider:
-  name: aws
-  runtime: python3.7
-```
-
 ## Test
 
-	$ serverless invoke local --function hello
+	$ serverless invoke local --function process_image --path event.json
 
-This will execute the function on your machine and should return:
+This will execute the function on your machine and return a base64 encoded image.
 
-	{
-	    "statusCode": 200,
-	    "body": "{\"message\": \"Go Serverless v1.0! Your function executed successfully!\", \"input\": {}}"
-	}
 
-# Assignment
+# Your turn
 
-Load an image from an URL and use the `Pillow` library to apply an effect and return the image. Because a Lambda function can only return
-
-> **Pillow Image Filter module reference**
->
-> https://pillow.readthedocs.io/en/3.0.x/reference/ImageFilter.html
-
-## Test
-
-	$
-
-## Deploy to AWS
-
-	$ serverless deploy
+Add an `orientation` query parameter to rotate the input image by steps of 90 degrees before returning it.
 
