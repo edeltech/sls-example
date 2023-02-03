@@ -5,9 +5,8 @@ You will implement an AWS Lambda function using the Serverless Framework capable
 
 **Requirements**
 
-- [Node](https://nodejs.org/en/download/) 6 or higher
+- [NPM](https://nodejs.org/en/download/) 16 or higher
 - [Python](https://www.python.org/downloads/) 3.6 or higher
-- [ImageMagick](https://imagemagick.org/script/download.php)
 
 
 Install the Serverless framework
@@ -21,28 +20,14 @@ Clone this repository
 Navigate into the directory and create a Python virtual environment
 
 	$ cd sls-example
-	$ python3 -m venv .venv
 
-Activate the virtual environment
+## Deploy
 
-	$ source .venv/bin/activate
+	$ serverless deploy
 
-Install the Python dependencies
+## Invoke
 
-	$ pip install -r requirements.txt
+	$ serverless invoke --function process_image --path event.json
 
-Install the serverless plugins
-
-	$ npm install
-
-## Test
-
-	$ serverless invoke local --function process_image --path event.json
-
-This will execute the function on your machine and return a base64 encoded image.
-
-
-# Your turn
-
-Add an `orientation` query parameter to rotate the input image by steps of 90 degrees before returning it.
+This will execute the function in the cloud and return the response. If all goes well, we should see a base64-encoder image. 
 

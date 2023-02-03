@@ -5,20 +5,20 @@ provider:
   region: eu-central-1
   ecr:
     images:
-      appimage:
+      slsexample:
         path: ./
 
 functions:
-  process_image:
+  get_image:
     image:
-      name: appimage
+      name: slsexample
       entryPoint:
         - /usr/local/bin/python
         - -m
         - awslambdaric
       command:
-        handler.process_image
+        handler.get_image
     events:
       - httpApi:
-        path: /transform
-        method: get
+          path: /image
+          method: get
