@@ -1,25 +1,23 @@
+import requests
 import base64
 
-from wand.image import Image
+from PIL import Image
+from io import BytesIO
 
-from urllib import request
 
-
-def process_image(event, context):
+def get_image(event, context):
     # get image url from input context
-    image_url = event['queryStringParameters']['url']
+    defaut_image_url = 'https://atlantis.nyc3.digitaloceanspaces.com/styled/72025f140f22a3eb32950bbb9d76e68d'
+    image_url = event.get('queryStringParameters', {}).get('url', defaut_image_url)
 
     # read image
-    response = request.urlopen(image_url)
-    image = Image(file=response)
+    response = requests.get(image_url, stream=True)
+    image = Image.open(response.raw)
 
-    # save image to local in debug mode
-    if event.get('debug'):
-        image.save(filename='output_image.jpg')
-
-    # build response body with the image
-    image_blob = image.make_blob('jpeg')
-    body = base64.b64encode(image_blob)
+    # build response body from provided image
+    buffer = BytesIO()
+    image.save(buffer, format='JPEG')
+    body = base64.b64encode(buffer.getvalue())
 
     response = {
         'statusCode': 200,
