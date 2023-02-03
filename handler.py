@@ -1,8 +1,8 @@
+import requests
 import base64
 
-from wand.image import Image
-
-from urllib import request
+from PIL import Image
+from io import BytesIO
 
 
 def process_image(event, context):
@@ -10,16 +10,17 @@ def process_image(event, context):
     image_url = event['queryStringParameters']['url']
 
     # read image
-    response = request.urlopen(image_url)
-    image = Image(file=response)
+    response = requests.get(image_url, stream=True)
+    image = Image.open(response.raw)
 
     # save image to local in debug mode
     if event.get('debug'):
         image.save(filename='output_image.jpg')
 
     # build response body with the image
-    image_blob = image.make_blob('jpeg')
-    body = base64.b64encode(image_blob)
+    buffer = BytesIO()
+    image.save(buffer, format='JPEG')
+    body = base64.b64encode(buffer.getvalue())
 
     response = {
         'statusCode': 200,
