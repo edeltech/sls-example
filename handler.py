@@ -13,11 +13,7 @@ def process_image(event, context):
     response = requests.get(image_url, stream=True)
     image = Image.open(response.raw)
 
-    # save image to local in debug mode
-    if event.get('debug'):
-        image.save(filename='output_image.jpg')
-
-    # build response body with the image
+    # build response body from provided image
     buffer = BytesIO()
     image.save(buffer, format='JPEG')
     body = base64.b64encode(buffer.getvalue())
